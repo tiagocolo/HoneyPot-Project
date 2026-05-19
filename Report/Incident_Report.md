@@ -13,7 +13,7 @@
 
 ## Summary
 
-An SSH honeypot hosted on DigitalOcean was hit with sustained brute force attacks starting May 12, 2026. On May 14, three IPs successfully authenticated as root. The attacker installed a cryptomining script that persisted via cron, modified UFW to block inbound SSH, and drove CPU to 65.1%. The host became unresponsive. The entire investigation was conducted through Microsoft Sentinel without touching the server.
+A honeypot hosted on DigitalOcean exposed to internet was hit with sustained brute force attacks starting May 12, 2026. On May 13, three IPs successfully authenticated as root. The attacker installed a cryptomining script that persisted via cron, modified UFW to block inbound SSH, and drove CPU to 65.1%. The host became unresponsive. The entire investigation was conducted through Microsoft Sentinel without touching the server.
 
 ---
 
@@ -23,14 +23,14 @@ An SSH honeypot hosted on DigitalOcean was hit with sustained brute force attack
 |---|---|
 | May 12 | Brute force begins across multiple IPs |
 | May 12–13 | Attack volume grows — top IP reaches 1,400 attempts |
-| May 14, 1:08:31 PM | 92.118.39.236 authenticates as root |
-| May 14, 1:08:40 PM | 172.82.91.35 authenticates as root |
-| May 14, 1:39:59 PM | 45.156.87.69 authenticates as root |
-| May 14, 1:45 PM | /etc/cron.hourly/gcc.sh installed |
-| May 14, 2:00 PM | UFW modified — port 22 blocked inbound |
-| May 14, 4:27 PM | Cron execution confirmed in Sentinel |
-| May 14, 5:00 PM | CPU at 65.1%, host unresponsive |
-| May 14, 5:12 PM | Escalated to L2 |
+| May 13, 1:08:31 PM | 92.118.39.236 authenticates as root |
+| May 13, 1:08:40 PM | 172.82.91.35 authenticates as root |
+| May 13, 1:39:59 PM | 45.156.87.69 authenticates as root |
+| May 13, 1:45 PM | /etc/cron.hourly/gcc.sh installed |
+| May 13, 2:00 PM | UFW modified — port 22 blocked inbound |
+| May 13, 4:27 PM | Cron execution confirmed in Sentinel |
+| May 13, 5:00 PM | CPU at 65.1%, host unresponsive |
+| May 13, 5:12 PM | Escalated to L2 |
 
 ---
 
