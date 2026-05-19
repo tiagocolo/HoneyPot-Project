@@ -55,7 +55,7 @@ Three IPs successfully authenticated as root:
 | 1:08:40 PM | 172.82.91.35 | 37224 |
 | 1:39:59 PM | 45.156.87.69 | 47794 |
 
-All three had previously appeared in the failed login logs, so these weren't separate actors — they were part of the same brute force campaign that eventually found the right password.
+All three had previously appeared in the failed login logs.
 
 **MITRE:** T1078 — Valid Accounts
 
@@ -80,7 +80,7 @@ CPU climbed to 65.1% and kept rising, There is probably a criptominer.
 
 ### Defense Evasion (May 13)
 
-UFW was modified to block inbound connections on port 22. 1,519 UFW BLOCK events appeared in Sentinel, all targeting the host. The attacker locked themselves in and locked everyone else out.
+UFW was modified to block inbound connections on port 22. many UFW BLOCK events appeared in Sentinel, all targeting the host. The attacker locked themselves in and locked everyone else out.
 
 **MITRE:** T1562.004 — Disable or Modify System Firewall
 
@@ -122,14 +122,3 @@ UFW was modified to block inbound connections on port 22. 1,519 UFW BLOCK events
 ```
 /etc/cron.hourly/gcc.sh
 ```
-
----
-
-## Tools
-
-| Tool | Use |
-|---|---|
-| Microsoft Sentinel | SIEM — alerting, KQL investigation, incident tracking |
-| Azure Monitor Agent | Log forwarding from honeypot to Sentinel |
-| KQL | Log querying and IOC correlation |
-| DigitalOcean | Honeypot infrastructure |
