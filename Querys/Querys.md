@@ -44,13 +44,15 @@ Finding: 3 IPs authenticated as root on may 13
 
 ```kql
 Syslog
-| where TimeGenerated > ago(7d)
+| where TimeGenerated > ago(2d)
 | where ProcessName == "sshd"
-| where SyslogMessage has "Failed password"
+| where SyslogMessage has "Failed password" or SyslogMessage has "Accepted"
 | extend IP = extract(@"from\s+(\d+\.\d+\.\d+\.\d+)", 1, SyslogMessage)
 | where IP in ("45.156.87.69", "172.82.91.35", "92.118.39.236")
-| summarize FailedAttempts = count() by IP
-| order by FailedAttempts desc
+| summarize
+    Failed  = countif(SyslogMessage has "Failed password"),
+    Accepted  = countif(SyslogMessage has "Accepted")
+  by IP
 ```
 
 Finding: There I see that the IP 172.82.91.35 gain access to the honeypot with only one attempt

@@ -1,7 +1,3 @@
-
-
-# FALTAN UN PAR DE RETOQUES AL READ ME Y FOTO DE VIRUS TOTAL Y DE ABUSEIPDB, FOTO DE LOS INTENTOS DE CADA IP AUTENTICADA Y YA PARA SUBIR
-
 # SSH Honeypot — SOC L1 Analysis with Microsoft Sentinel
 
 This project documents a real attack captured on an intentionally exposed DigitalOcean droplet. The goal was to simulate a SOC L1 workflow end-to-end: receive an alert, investigate through the SIEM, and escalate with a complete report.
@@ -65,14 +61,7 @@ All three had previously appeared in the failed login logs.
 
 ### Persistence (May 13)
 
-After getting in, the attacker dropped a script at `/etc/cron.hourly/gcc.sh`. The filename is deliberate — `gcc` is the GNU C Compiler, a standard Linux binary, so it blends in. The script ran every hour as root via cron.
-
-Sentinel showed this repeating every hour:
-```
-(root) CMD (/etc/cron.hourly/gcc.sh)
-pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
-pam_unix(cron:session): session closed for user root
-```
+After getting in, the attacker dropped a script at `/etc/cron.hourly/gcc.sh`. The filename is deliberate — `gcc` is the GNU C Compiler, a standard Linux binary, and the attacker was trying to masquerading the script as the GNU compiler. The script ran every hour as root via cron.
 
 **MITRE:** T1053.003 — Cron / T1036 — Masquerading
 
@@ -84,7 +73,7 @@ CPU climbed to 65.1% and kept rising, There is probably a criptominer.
 
 ### Defense Evasion (May 13)
 
-UFW was modified to block inbound connections on port 22. many UFW BLOCK events appeared in Sentinel, all targeting the host. The attacker locked themselves in and locked everyone else out.
+UFW was modified to block inbound connections on port 22. many UFW blocks events appeared in Sentinel. The attacker locked themselves in and locked everyone else out.
 
 **MITRE:** T1562.004 — Disable or Modify System Firewall
 
