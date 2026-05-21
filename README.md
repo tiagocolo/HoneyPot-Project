@@ -1,3 +1,7 @@
+
+
+# FALTAN UN PAR DE RETOQUES AL READ ME Y FOTO DE VIRUS TOTAL Y DE ABUSEIPDB, FOTO DE LOS INTENTOS DE CADA IP AUTENTICADA Y YA PARA SUBIR
+
 # SSH Honeypot — SOC L1 Analysis with Microsoft Sentinel
 
 This project documents a real attack captured on an intentionally exposed DigitalOcean droplet. The goal was to simulate a SOC L1 workflow end-to-end: receive an alert, investigate through the SIEM, and escalate with a complete report.

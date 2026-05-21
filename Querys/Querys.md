@@ -57,7 +57,7 @@ Finding: There I see that the IP 172.82.91.35 gain access to the honeypot with o
 
 ---
 
-## 6 — Post-compromise system activity
+## 4 — Post-compromise system activity
 
 
 ```kql
@@ -72,7 +72,7 @@ Finding: CRON executing `/etc/cron.hourly/gcc.sh` as root every hour.
 
 ---
 
-## 7 — Firewall and defense evasion
+## 5 — Firewall and defense evasion
 
 Detect changes to UFW, iptables, SSH config, or authorized_keys.
 

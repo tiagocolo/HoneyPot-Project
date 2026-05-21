@@ -24,12 +24,12 @@ A honeypot hosted on DigitalOcean exposed to internet was hit with sustained bru
 | May 12 | Brute force begins across multiple IPs |
 | May 12–13 | Attack volume grows — top IP reaches 1,400 attempts |
 | May 13, 1:08:31 PM | 92.118.39.236 authenticates as root |
-| May 13, 1:08:40 PM | 172.82.91.35 authenticates as root |
 | May 13, 1:39:59 PM | 45.156.87.69 authenticates as root |
+| May 13, 1:08:40 PM | 172.82.91.35 authenticates as root with only one attempt|
 | May 13, 1:45 PM | /etc/cron.hourly/gcc.sh installed |
 | May 13, 2:00 PM | UFW modified — port 22 blocked inbound |
 | May 13, 4:27 PM | Cron execution confirmed in Sentinel |
-| May 13, 5:00 PM | CPU at 65.1%, host unresponsive |
+| May 13, 5:00 PM | CPU at 65.1%|
 | May 13, 5:12 PM | Escalated to L2 |
 
 ---
@@ -38,23 +38,24 @@ A honeypot hosted on DigitalOcean exposed to internet was hit with sustained bru
 
 ### Brute Force
 
-The attack was automated — high volume, multiple sources, all targeting root. No single actor stood out as coordinated; this was opportunistic scanning. The weak password was the only thing that needed to fall, and it did.
+From the first two IPs the attack was automated with high volume of attempts and targeting root. The initial attack vector was weak credential security.
 
-### Successful Access
+### IP (172.82.91.35)
 
-All three IPs that got in had prior failed attempts in the logs. They weren't coming in with known credentials — they found the password through brute force like everyone else, just faster or luckier.
+The IP 172.82.91.35 gained access with only one attempt which suggests that the attack may have been coordinated with IP 92.118.39.236, I believe this because the IP 92.118.39.236 connected nine seconds before than the IP 172.82.91.35 and since the IP 172.82.91.35 only needed one attempt to sign in I believe that when the IP 92.118.39.236 gained access to the honeypot this IP share the password to a C2 server and the IP 172.82.91.35 recieve it. Maybe this attacker did this to preserve the IP's clear reputation, that is probably the reason that caused that when I run the IP 172.82.91.35 in VirusTotal and AbuseIPDB it returned no malicious reports about this IP
+
 
 ### Persistence
 
-The attacker placed `/etc/cron.hourly/gcc.sh` on the system. Using `gcc` as the filename is a basic masquerading technique — it looks like a compiler binary sitting in a system directory. Cron ran it as root every hour. Sentinel captured the execution pattern but not the script's contents, since `auditd` was not configured.
+The attacker placed `/etc/cron.hourly/gcc.sh` on the system trying to masquerading the cron as the GNU compilator of linux with the name of `gcc` — cron ran it as root every hour.
 
 ### Impact
 
-CPU usage climbed steadily after compromise and peaked at 65.1%. Combined with the host becoming unreachable via SSH and web console, this is consistent with a cryptominer consuming available resources.
+CPU usage climbed steadily after compromise and peaked at 65.1%. with the cron, this is consistent with a probably cryptominer consuming available resources.
 
 ### Defense Evasion
 
-1,519 UFW BLOCK events were logged in Sentinel after the compromise, all targeting inbound connections on the host's IP. The attacker locked down port 22 to prevent recovery while maintaining their own access.
+Many ufw block events were logged in Sentinel after the compromise, all targeting inbound connections on the host's IP. The attacker locked down port 22 to prevent recovery while maintaining their own access.
 
 ---
 
@@ -102,7 +103,7 @@ CPU usage climbed steadily after compromise and peaked at 65.1%. Combined with t
 - Confirmed true positive via Syslog analysis
 - Extracted and documented all attacker IPs
 - Reconstructed session timeline via KQL
-- Identified persistence mechanism and cron execution pattern
+- Identified persistence mechanism by cron
 - Identified UFW modification as active defense evasion
 - Mapped all findings to MITRE ATT&CK
 - Escalated to L2 with full evidence package
@@ -111,14 +112,4 @@ CPU usage climbed steadily after compromise and peaked at 65.1%. Combined with t
 
 ## Escalation Justification
 
-This went to L2 because root-level access was confirmed active, a persistence mechanism was running, the firewall had been tampered with, and the host was no longer reachable. Forensic analysis of `gcc.sh` and full containment require L2 involvement.
-
----
-
-## Recommendations for L2
-
-1. Power off or snapshot the droplet via DigitalOcean dashboard before anything else
-2. Analyze `/etc/cron.hourly/gcc.sh` — identify the miner binary and any C2 infrastructure
-3. Check for additional persistence: `.bashrc`, `~/.ssh/authorized_keys`, systemd services
-4. Add confirmed attacker IPs to perimeter blocklist
-5. Rebuild from clean image — do not attempt to remediate the compromised host
+This went to L2 because root-level access was confirmed active, a persistence mechanism was running, the firewall had been tampered with, and the host was no longer reachable. Forensic analysis of `gcc.sh` and full containment require L2.
