@@ -1,6 +1,6 @@
 # SSH Honeypot — SOC L1 Analysis with Microsoft Sentinel
 
-This project documents a real attack captured on an intentionally exposed DigitalOcean droplet. The goal was to simulate a SOC L1 workflow end-to-end: receive an alert, investigate through the SIEM, and escalate with a complete report.
+This project documents a real attack captured on an intentionally exposed DigitalOcean droplet. The goal was to simulate a SOC L1 workflow end-to-end: receive an alert, investigate through the SIEM, and escalate with a complete report. In this proyect I did not configure auditd in the machine so I missed some logs.
 
 ---
 
@@ -13,8 +13,6 @@ This project documents a real attack captured on an intentionally exposed Digita
 | **Log forwarding** | Azure Monitor Agent → Syslog table |
 | **Exposure** | SSH port 22, root login enabled, weak password |
 | **Period** | May 12–13, 2026 |
-
-In this proyect I did not configure auditd in the machine so I missed some logs
 
 ---
 
