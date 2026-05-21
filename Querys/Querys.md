@@ -17,7 +17,7 @@ Syslog
 | order by Attempts desc
 ```
 
-Finding: Many IPs were performing a brute force attack
+Finding: Many IPs were performing a brute force attack.
 
 ---
 
@@ -29,18 +29,18 @@ Syslog
 | where ProcessName == "sshd"
 | where SyslogMessage has "Accepted password" or SyslogMessage has "Accepted publickey"
 | extend
-    IP = extract(@"from\s+(\d+\.\d+\.\d+\.\d+)", 1, SyslogMessage),
+    IP   = extract(@"from\s+(\d+\.\d+\.\d+\.\d+)", 1, SyslogMessage),
     User = extract(@"for\s+(\S+)\s+from", 1, SyslogMessage)
 | where isnotempty(IP)
 | project TimeGenerated, IP, User, SyslogMessage
 | order by TimeGenerated desc
 ```
 
-Finding: 3 IPs authenticated as root on may 13
+Finding: 3 IPs authenticated as root on May 13.
 
 ---
 
-## 3 — Sign in attemps of the authenticated IPs
+## 3 — Sign-in attempts of the authenticated IPs
 
 ```kql
 Syslog
@@ -50,17 +50,16 @@ Syslog
 | extend IP = extract(@"from\s+(\d+\.\d+\.\d+\.\d+)", 1, SyslogMessage)
 | where IP in ("45.156.87.69", "172.82.91.35", "92.118.39.236")
 | summarize
-    Failed  = countif(SyslogMessage has "Failed password"),
-    Accepted  = countif(SyslogMessage has "Accepted")
+    Failed   = countif(SyslogMessage has "Failed password"),
+    Accepted = countif(SyslogMessage has "Accepted")
   by IP
 ```
 
-Finding: There I see that the IP 172.82.91.35 gain access to the honeypot with only one attempt
+Finding: IP 172.82.91.35 gained access with only one attempt, suggesting the attacker already had valid credentials.
 
 ---
 
 ## 4 — Post-compromise system activity
-
 
 ```kql
 Syslog
@@ -89,6 +88,4 @@ Syslog
 | order by TimeGenerated asc
 ```
 
-Finding: many ufw blocks events — inbound port 22 blocked after compromise.
-
-
+Finding: Many UFW block events logged — inbound port 22 blocked after compromise.
