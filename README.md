@@ -14,6 +14,8 @@ This project documents a real attack captured on an intentionally exposed Digita
 | **Exposure** | SSH port 22, root login enabled, weak password |
 | **Period** | May 12–13, 2026 |
 
+In this proyect I did not configure auditd in the machine so I missed some logs
+
 ---
 
 ## Repository Structure
@@ -58,6 +60,10 @@ Three IPs successfully authenticated as root:
 All three had previously appeared in the failed login logs.
 
 **MITRE:** T1078 — Valid Accounts
+
+### Threat Intelligence (May 13)
+
+The first two authenticated IPs (92.118.39.236 45.156.87.69) was identified as a maliciuous IPs, but the third IP 172.82.91.35 was a IP with a clear reputation and was only the same attacker that used the IP 92.118.39.236 masquerading as a legitimate user. Basically when the attacker with the IP 92.118.39.236 stole the credentials, the attacker change its IP and authenticated again in the first attempt using the stolen credential and a IP with a clear reputation to masquerading as a legitimate user
 
 ### Persistence (May 13)
 
