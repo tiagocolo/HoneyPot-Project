@@ -155,6 +155,6 @@ ssh-honeypot-soc-analysis/
 
 **Tiago Colo Ceppone**  
 colotiago8@gmail.com  
-[linkedin.com/in/tiago-colo](https://linkedin.com/in/tiago-colo)  
+[linkedin.com/in/tiago-colo-640057402](https://www.linkedin.com/in/tiago-colo-640057402/)  
 
 Built from a real incident. Documented for learning.
