@@ -105,6 +105,6 @@ CPU utilization reached 65.1%, consistent with cryptomining activity. The exact 
 ## Report Completed By
 
 **Tiago Colo**  
-ISC2 Certified in Cybersecurity (CC)  
 colotiago8@gmail.com
+
 
