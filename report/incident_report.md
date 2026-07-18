@@ -31,8 +31,6 @@ An intentionally exposed DigitalOcean droplet (Ubuntu 24.04, SSH port 22 open, w
 
 **Affected Asset:**
 - DigitalOcean Droplet — Ubuntu 24.04
-- IP: (not disclosed — active threat intelligence research)
-- Hostname: (not disclosed — active threat intelligence research)
 
 **Attack Vector:**
 - External — internet-facing SSH service with weak credentials
